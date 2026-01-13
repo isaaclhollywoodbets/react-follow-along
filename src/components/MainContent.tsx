@@ -1,15 +1,17 @@
-function MainContent() {
-    const developerName = 'My Name';
-  const role = 'Full-stack developer';
-  const stack = ['C#', 'SQL', 'React'];
+type MainContentProps = {
+  developerName: string;
+  role: string;
+  stack: string[];
+};
 
-  const stackList = stack.join(", ")
+function MainContent({ developerName, role, stack }: MainContentProps) {
+  const stackList = stack.join(', ');
 
   return (
     <main>
       <h2>Welcome</h2>
       <p>
-        Hi, I'm {developerName}, a {role}.
+        Hi, I&apos;m {developerName}, a {role}.
       </p>
       <p>My current stack: {stackList}</p>
     </main>

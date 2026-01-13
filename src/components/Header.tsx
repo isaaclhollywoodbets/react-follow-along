@@ -1,7 +1,10 @@
-function Header() {
-  const title = 'My React Portfolio';
-  const subtitle = 'Full-stack dev learning React';
+type HeaderProps = {
+  title: string;
+  subtitle: string;
+};
 
+function Header({title, subtitle}: HeaderProps) {
+ 
   return (
     <header>
       <h1>{title}</h1>
