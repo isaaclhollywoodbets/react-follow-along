@@ -1,5 +1,7 @@
+import ProjectsList from "./ProjectsList";
+
 function MainContent() {
-    const developerName = 'My Name';
+  const developerName = 'My Name';
   const role = 'Full-stack developer';
   const stack = ['C#', 'SQL', 'React'];
 
@@ -12,6 +14,7 @@ function MainContent() {
         Hi, I'm {developerName}, a {role}.
       </p>
       <p>My current stack: {stackList}</p>
+      <ProjectsList/>
     </main>
   );
 }
