@@ -1,7 +1,7 @@
 function FeaturedBadge({ isFeatured }: { isFeatured: boolean }) {
   return (
     <p>
-      {isFeatured ? '🌟 Featured project' : 'Regular project'}
+      {isFeatured ? '🌟 Featured project' : '📄Regular project'}
     </p>
   );
 }

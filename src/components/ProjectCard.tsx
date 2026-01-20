@@ -1,32 +1,28 @@
 import FeaturedBadge from "./FeaturedBadge";
+import StatusBadge from "./StatusBadge";
 
 
-type Project = {                                                                                                                    
+type ProjectCardProps = {                                                                                                                    
   id: number;                                                                                                                                
   name: string;                                                                                                                              
-  summary: string;                                                                                                                           
-  featured: boolean;                                                                                                                         
+  summary: string;                                                                                                                          
+  featured: boolean;
+  isfinished: boolean;                                                                                                                         
 };                                                                                                                                           
+                                                                                                                                           
                                                                                                                                              
-const project: Project = {                                                                                                                   
-  id: 1,                                                                                                                                     
-  name: "Portfolio",                                                                                                                         
-  summary: "Personal portfolio built with React.",                                                                                           
-  featured: true,                                                                                                                            
-};                                                                                                                                           
-                                                                                                                                             
-function ProjectCard() {                                                                                                                     
-  const techList = ["React", "TypeScript", "Vite"];                                                                                          
-  const title = `${project.name} (${techList.join(", ")})`;                                                                              
-                                                                                                                                             
+function ProjectCard({id, name, summary, featured, isfinished}: ProjectCardProps) {                                                                                                                     
+                                                                                                                                                                                                                        
   return (
     <>
      <article className="project-card">                                                                                                       
-      <h3>{title}</h3>                                                                                                                       
-      <p>{project.summary}</p>                                                                                                               
-      {project.featured && <p>Featured project</p>}                                                                                          
+      <h3>{id}</h3> 
+      <p>{name}</p>                                                                                                                      
+      <p>{summary}</p>                                                                                                               
+                                                                                             
     </article>
-    <FeaturedBadge isFeatured={true} />
+    <FeaturedBadge isFeatured={featured} />
+    <StatusBadge isFinished={isfinished}/>
     </>                                                                                                                                   
    
                                                                                                                                
