@@ -1,11 +1,11 @@
+import NavBar from './NavBar'
+
 function Header() {
-  const title = 'My React Portfolio';
-  const subtitle = 'Full-stack dev learning React';
 
   return (
     <header>
-      <h1>{title}</h1>
-      <p>{subtitle}</p>
+      <h1>The portfolio</h1>
+      <NavBar/>
     </header>
   );
 }

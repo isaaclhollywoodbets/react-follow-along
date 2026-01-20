@@ -1,12 +1,10 @@
-import ProjectCard from "./ProjectCard";
+import { Outlet } from "react-router";
 
 function MainContent() {
 
   return (
     <main>
-      <h2>Welcome</h2>
-      <ProjectCard id={1} name="The first Project" summary="The summary" featured={true} isfinished={false}/>
-
+      <Outlet />
     </main>
   );
 }
