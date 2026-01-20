@@ -1,17 +1,12 @@
-function MainContent() {
-    const developerName = 'My Name';
-  const role = 'Full-stack developer';
-  const stack = ['C#', 'SQL', 'React'];
+import ProjectCard from "./ProjectCard";
 
-  const stackList = stack.join(", ")
+function MainContent() {
 
   return (
     <main>
       <h2>Welcome</h2>
-      <p>
-        Hi, I'm {developerName}, a {role}.
-      </p>
-      <p>My current stack: {stackList}</p>
+      <ProjectCard id={1} name="The first Project" summary="The summary" featured={true} isfinished={false}/>
+
     </main>
   );
 }
