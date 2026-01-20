@@ -1,3 +1,6 @@
+import FeaturedBadge from "./FeaturedBadge";
+
+
 type Project = {                                                                                                                    
   id: number;                                                                                                                                
   name: string;                                                                                                                              
@@ -16,12 +19,17 @@ function ProjectCard() {
   const techList = ["React", "TypeScript", "Vite"];                                                                                          
   const title = `${project.name} (${techList.join(", ")})`;                                                                              
                                                                                                                                              
-  return (                                                                                                                                   
-    <article className="project-card">                                                                                                       
+  return (
+    <>
+     <article className="project-card">                                                                                                       
       <h3>{title}</h3>                                                                                                                       
       <p>{project.summary}</p>                                                                                                               
       {project.featured && <p>Featured project</p>}                                                                                          
-    </article>                                                                                                                               
+    </article>
+    <FeaturedBadge isFeatured={true} />
+    </>                                                                                                                                   
+   
+                                                                                                                               
   );                                                                                                                                         
 }                                                                                                                                            
                                                                                                                                              
