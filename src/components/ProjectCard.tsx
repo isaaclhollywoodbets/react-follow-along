@@ -7,11 +7,12 @@ type ProjectCardProps = {
   name: string;                                                                                                                              
   summary: string;                                                                                                                          
   featured: boolean;
-  isfinished: boolean;                                                                                                                         
+  isfinished: boolean;
+  onSelect: (id: number) => void;                                                                                                                         
 };                                                                                                                                           
                                                                                                                                            
                                                                                                                                              
-function ProjectCard({id, name, summary, featured, isfinished}: ProjectCardProps) {                                                                                                                     
+function ProjectCard({id, name, summary, featured, isfinished, onSelect}: ProjectCardProps) {                                                                                                                     
                                                                                                                                                                                                                         
   return (
     <>
@@ -23,6 +24,9 @@ function ProjectCard({id, name, summary, featured, isfinished}: ProjectCardProps
     </article>
     <FeaturedBadge isFeatured={featured} />
     <StatusBadge isFinished={isfinished}/>
+    <button type="button" onClick={() => onSelect(id)}>
+      View Details
+    </button>
     </>                                                                                                                                   
    
                                                                                                                                
