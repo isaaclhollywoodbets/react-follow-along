@@ -1,4 +1,5 @@
 import NavBar from './NavBar'
+import ThemeLabel from './ThemeSwitcher';
 
 function Header() {
 
@@ -6,6 +7,7 @@ function Header() {
     <header>
       <h1>The portfolio</h1>
       <NavBar/>
+      <ThemeLabel/>
     </header>
   );
 }

@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 
 function NavBar() {
 
-    const linkStyle = ({ isActive }: any) => ({
+    const linkStyle = ({ isActive }: { isActive: boolean}) => ({
         fontWeight: isActive ? "700" : "400",
         textDecoration: "none",
     });
@@ -12,11 +12,14 @@ function NavBar() {
             <NavLink to="/" end style={linkStyle}>
                 Home
             </NavLink>
-            <NavLink to="/projects" style={linkStyle}>
+            <NavLink to="/projects" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 Projects
             </NavLink>
-            <NavLink to="/about" style={linkStyle}>
+            <NavLink to="/about" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 About
+            </NavLink>
+            <NavLink to ="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                Contact
             </NavLink>
         </nav>
     )

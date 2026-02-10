@@ -1,20 +1,20 @@
-import ProjectCard from '../components/ProjectCard'
+import ProjectsList from '../components/ProjectsList'
 
 export default function ProjectsPage() {
   const handleSelectProject = (id: number) => {
-    console.log('Selected project', id)
+    alert(`Selected project', ${id}`)
   }
   return (
     <>
       <h2>Projects</h2>
-       <ProjectCard 
-       id={1} 
-       name="The first Project" 
-       summary="The summary" 
-       featured={true} isfinished={false}
-       onSelect={handleSelectProject}/>
+      {/* {projects.map(project => (
+        <ProjectCard
+          key={project.id}
+          project={project}
+          onSelect={handleSelectProject} />
+      ))} */}
+      <ProjectsList onSelect={handleSelectProject} />
+
     </>
   );
 }
-
-
