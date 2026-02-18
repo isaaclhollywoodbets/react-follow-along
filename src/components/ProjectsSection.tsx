@@ -70,7 +70,11 @@ function ProjectsSection() {
                     placeholder="Search by name, summary, or tech"
                 />
             </div>
-
+            <p>
+                Showing {visibleProjects.length} of {projectList.length} projects
+                {showFeaturedOnly && ' (featured only)'}
+                {searchTerm && ` matching "${searchTerm}"`}
+            </p>
             <label>
                 <input
                     type="checkbox"
@@ -81,11 +85,16 @@ function ProjectsSection() {
             </label>
             <AddProjectForm onAddProject={handleAddProject} />
             <br />
-            <ProjectsList
-                projects={visibleProjects}
-                onToggleFeatured={handleToggleFeatured}
-                onRemoveProject={handleRemoveProject}
-                onRenameProject={handleRenameProject} />
+            {visibleProjects.length === 0 ? (
+                <p>No projects match your filter yet</p>
+            ) : (
+                <ProjectsList
+                    projects={visibleProjects}
+                    onToggleFeatured={handleToggleFeatured}
+                    onRemoveProject={handleRemoveProject}
+                    onRenameProject={handleRenameProject} />
+            )}
+
         </section>
     );
 }
