@@ -2,11 +2,11 @@ import { useState } from "react";
 import FeaturedBadge from "./FeaturedBadge";
 import StatusBadge from "./StatusBadge";
 import LikeButton from "./LikeButton";
-import type { Project } from '../data/projects';
+import type { ApiProject } from "../types/api-project";
 
 
 type ProjectCardProps = {
-  project: Project;
+  project: ApiProject;
   onSelect?: (id: number) => void;
 };
 
@@ -14,7 +14,8 @@ type ProjectCardProps = {
 function ProjectCard({ project, onSelect }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasDetails = Boolean(project.details?.trim());
-  const techList = project.tech.join(', ');
+  const techList = project.tech?.length ? project.tech.join(', ') : 'N/A';
+
 
   function handleToggleDetails() {
     setIsExpanded(prev => !prev)
@@ -30,7 +31,8 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
       <article className="project-card">
         <h3>{project.name}</h3>
         <FeaturedBadge isFeatured={project.featured} />
-        <p>{project.summary}</p>
+        <p>{project.summary ?? 'No summary yet.'}</p>
+
 
         {
           hasDetails && isExpanded && (
@@ -47,13 +49,6 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
           <LikeButton />
         </div>
 
-
-
-
-
-        <button type="button" onClick={() => onSelect?.(project.id)}>
-          View Project ID
-        </button>
         {hasDetails && (
           <button type="button" onClick={handleToggleDetails}>
             {isExpanded ? 'Show Less' : 'Show More'}

@@ -1,12 +1,4 @@
-export type Project = {
-    id: number;
-    name: string;
-    summary: string;
-    tech: string[];
-    featured: boolean;
-    finished: boolean;
-    details?: string;
-};
+import type { Project } from "../types/projects"
 
 export const projects: Project[] = [
     {
@@ -16,7 +8,7 @@ export const projects: Project[] = [
         tech: ['C#', 'SQL'],
         featured: false,
         finished: false,
-        // details: 'Supports multiple payment providers and idempotent operations.',
+        details: 'Supports multiple payment providers and idempotent operations.',
     },
     {
         id: 2,

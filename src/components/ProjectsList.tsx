@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import ProjectCard from './ProjectCard';
-import { projects } from '../data/projects';
+import type { ApiProject } from '../types/api-project';
 
 // type Filter = 'all' | 'featured';
 
 export type ProjectListProps = {
+    projects: ApiProject[];
     filter?: 'all' | 'featured';
     onSelect?: (id: number) => void;
 }
 
-function ProjectsList({ filter = 'all', onSelect }: ProjectListProps) {
+function ProjectsList({ projects, filter = 'all', onSelect }: ProjectListProps) {
   const [activefilter, setActiveFilter] = useState(filter);
 
   const visibleProjects =
