@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 
 function NavBar() {
 
-    const linkStyle = ({ isActive }: { isActive: boolean}) => ({
+    const linkStyle = ({ isActive }: { isActive: boolean }) => ({
         fontWeight: isActive ? "700" : "400",
         textDecoration: "none",
     });
@@ -18,7 +18,10 @@ function NavBar() {
             <NavLink to="/about" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 About
             </NavLink>
-            <NavLink to ="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+            <NavLink to="/skills" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                Skills
+            </NavLink>
+            <NavLink to="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 Contact
             </NavLink>
         </nav>

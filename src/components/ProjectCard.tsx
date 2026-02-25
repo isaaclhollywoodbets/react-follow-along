@@ -7,11 +7,10 @@ import type { ApiProject } from "../types/api-project";
 
 type ProjectCardProps = {
   project: ApiProject;
-  onSelect?: (id: number) => void;
 };
 
 
-function ProjectCard({ project, onSelect }: ProjectCardProps) {
+function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasDetails = Boolean(project.details?.trim());
   const techList = project.tech?.length ? project.tech.join(', ') : 'N/A';
@@ -19,11 +18,6 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
 
   function handleToggleDetails() {
     setIsExpanded(prev => !prev)
-  }
-
-  const handleClick = () => {
-    onSelect?.(project.id);
-    handleToggleDetails();
   }
 
   return (
@@ -54,9 +48,6 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
             {isExpanded ? 'Show Less' : 'Show More'}
           </button>
         )}
-        <button type="button" onClick={handleClick}>
-          View & Toggle
-        </button>
       </article>
     </>
 

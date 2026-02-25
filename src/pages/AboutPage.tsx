@@ -1,10 +1,11 @@
-import Bio from "../components/Bio";
+import ProfileCard from "../components/ProfileCard";
 
 export default function AboutPage() {
+
   return (
     <>
       <h2>About</h2>
-      <Bio/>
+      <ProfileCard/>
     </>
   );
 }

@@ -2,15 +2,15 @@ import { useState } from 'react';
 import ProjectCard from './ProjectCard';
 import type { ApiProject } from '../types/api-project';
 
+
 // type Filter = 'all' | 'featured';
 
 export type ProjectListProps = {
     projects: ApiProject[];
     filter?: 'all' | 'featured';
-    onSelect?: (id: number) => void;
 }
 
-function ProjectsList({ projects, filter = 'all', onSelect }: ProjectListProps) {
+function ProjectsList({ projects, filter = 'all' }: ProjectListProps) {
   const [activefilter, setActiveFilter] = useState(filter);
 
   const visibleProjects =
@@ -46,7 +46,7 @@ function ProjectsList({ projects, filter = 'all', onSelect }: ProjectListProps) 
 
       <div className="projects-grid">
         {visibleProjects.map(project => (
-          <ProjectCard key={project.id} project={project} onSelect={onSelect} />
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
     </section>

@@ -1,28 +1,23 @@
 import { useState } from 'react';
 
-function Bio() {
-const [isExpanded, setIsExpanded] = useState(false);
+type BioProps = {
+  bio?: string;
+};
 
-const intro =
-  'I am a full-stack developer transitioning into modern React.';
-const extra =
-  ' I enjoy teaching, mentoring, and building tools that simplify complex topics.';
+function Bio({ bio }: BioProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
 
-function handleToggle() {
-  setIsExpanded(prev => !prev);
+  if (!bio) return <p>No bio provided.</p>;
+
+  return (
+    <section>
+      <button type="button" onClick={() => setIsExpanded(prev => !prev)}>
+        {isExpanded ? 'Show less' : 'Show more'}
+      </button>
+
+      {isExpanded && <p>{bio}</p>}
+    </section>
+  );
 }
 
-return (
-  <section>
-    <p>
-      {intro}
-      {isExpanded && extra}
-    </p>
-    <button type="button" onClick={handleToggle}>
-      {isExpanded ? 'Show less' : 'Show more'}
-    </button>
-  </section>
-);
-}
-
-export default Bio
+export default Bio;

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { ApiProject } from '../types/api-project';
 import ProjectsList from '../components/ProjectsList';
-import { getProjects } from '../api/portfolioApi';
-
+import { ApiError, getProjects } from '../api/portfolioApi';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<ApiProject[]>([]);
@@ -10,21 +9,31 @@ export default function ProjectsPage() {
   const [error, setError] = useState("");
 
 
-  async function loadProjects({ signal }: { signal?: AbortSignal} = {}) {
+  async function loadProjects({ signal }: { signal?: AbortSignal } = {}) {
     setStatus("loading");
     setError("");
 
     try {
-      
-      const data = await getProjects({signal});
+
+      const data = await getProjects({
+        signal,
+        query: { search: "react", sort: "name" },
+      });
       setProjects(Array.isArray(data) ? data : []);
       setStatus("success");
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === "AbortError") return;
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Could not load projects");
+
+      if (err instanceof ApiError) {
+        setError(`${err.message} (HTTP ${err.status})`);
+        console.error("API error:", err.url, err.details);
+      } else {
+        setError(err instanceof Error ? err.message : "Something went wrong");
+      }
     }
   }
+
 
   useEffect(() => {
     const controller = new AbortController();
@@ -32,6 +41,7 @@ export default function ProjectsPage() {
 
     return () => controller.abort();
   }, [])
+
 
   return (
     <>
@@ -52,16 +62,9 @@ export default function ProjectsPage() {
       )}
 
       {status === "success" && projects.length > 0 && (
-        // <ul>
-        //   {projects.map((p) => (
-        //     <li key={p.id ?? p.name}>
-        //       <strong>{p.name}</strong>
-        //       {p.summary ? <div>{p.summary}</div> : null}
-        //     </li>
-        //   ))}
-        // </ul>
         <ProjectsList projects={projects} />
       )}
+
 
     </>
   );
