@@ -1,45 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useProfile } from '../hooks/useProfile';
 import Bio from './Bio';
-import { ApiError, getProfile } from '../api/portfolioApi';
-import type { Profile } from '../types/api-profile';
+
 
 function ProfileCard() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [error, setError] = useState('');
+  const {
+    profile,
+    status: profileStatus,
+    error: profileError,
+    reload: reloadProfile,
+  } = useProfile();
 
-  async function loadProfile({ signal }: { signal?: AbortSignal } = {}) {
-    setStatus('loading');
-    setError('');
 
-    try {
-      const data = await getProfile({ signal });
-      setProfile(data ?? null);
-      setStatus('success');
-    } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === 'AbortError') return;
 
-      setStatus('error');
-      if (err instanceof ApiError) {
-        setError(`${err.message} (HTTP ${err.status})`);
-      } else {
-        setError(err instanceof Error ? err.message : 'Failed to load profile');
-      }
-    }
-  }
-
-  useEffect(() => {
-    const controller = new AbortController();
-    loadProfile({ signal: controller.signal });
-    return () => controller.abort();
-  }, []);
-
-  if (status === 'loading') return <p>Loading profile...</p>;
-  if (status === 'error') {
+  if (profileStatus === 'loading') return <p>Loading profile...</p>;
+  if (profileStatus === 'error') {
     return (
       <div>
-        <p>Could not load profile: {error}</p>
-        <button type="button" onClick={() => loadProfile()}>
+        <p>Could not load profile: {profileError}</p>
+        <button type="button" onClick={() => reloadProfile()}>
           Retry
         </button>
       </div>

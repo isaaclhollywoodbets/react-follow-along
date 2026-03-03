@@ -1,32 +1,8 @@
-import { useEffect, useState } from "react";
-import { getSkills } from "../api/portfolioApi";
-import type { Skill } from "../types/api-tech";
+import { useSkills } from "../hooks/useSkills";
+
 
 export default function SkillsPage() {
-    const [skills, setSkills] = useState<Skill[]>([]);
-    const [skillsStatus, setSkillsStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-    const [skillsError, setSkillsError] = useState("");
-
-    async function loadSkills({ signal }: { signal?: AbortSignal } = {}) {
-        setSkillsStatus("loading");
-        setSkillsError("");
-
-        try {
-            const data = await getSkills({ signal });
-            setSkills(Array.isArray(data) ? data : []);
-            setSkillsStatus("success");
-        } catch (err: unknown) {
-            if (err instanceof DOMException && err.name === "AbortError") return;
-            setSkillsStatus("error");
-            setSkillsError(err instanceof Error ? err.message : "Failed to load skills");
-        }
-    }
-
-    useEffect(() => {
-        const controller = new AbortController();
-        loadSkills({ signal: controller.signal });
-        return () => controller.abort();
-    }, []);
+   const { skills, status: skillsStatus, error: skillsError, reload } = useSkills();
 
     return (
         <section>
@@ -37,7 +13,7 @@ export default function SkillsPage() {
             {skillsStatus === "error" && (
                 <div>
                     <p>Could not load skills: {skillsError}</p>
-                    <button onClick={() => loadSkills()}>Retry skills</button>
+                    <button onClick={() => reload()}>Retry skills</button>
                 </div>
             )}
 
