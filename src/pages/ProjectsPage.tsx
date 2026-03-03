@@ -1,10 +1,28 @@
 import { useProjects } from '../hooks/useProjects';
 import ProjectsList from '../components/ProjectsList';
+import { useState } from 'react';
+import { ProjectsToolbar } from '../components/ProjectsToolbar';
+import { ProjectsSummary } from '../components/ProjectsSummary';
 
 
 export default function ProjectsPage() {
-const { projects, status, error, reload } = useProjects();
+  const [query, setQuery] = useState("");
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
 
+  const { projects, status, error, reload } = useProjects();
+
+  const normalizedQuery = query.trim().toLowerCase();
+
+  const visibleProjects = projects.filter((p) => {
+    const matchesQuery =
+      normalizedQuery === "" ||
+      (p.name ?? "").toLowerCase().includes(normalizedQuery) ||
+      (p.summary ?? "").toLowerCase().includes(normalizedQuery);
+
+    const matchesFeatured = !showFeaturedOnly || Boolean(p.featured);
+
+    return matchesQuery && matchesFeatured;
+  });
 
 
   return (
@@ -26,7 +44,19 @@ const { projects, status, error, reload } = useProjects();
       )}
 
       {status === "success" && projects.length > 0 && (
-        <ProjectsList projects={projects} />
+        <>
+          <ProjectsToolbar
+            query={query}
+            onQueryChange={setQuery}
+            showFeaturedOnly={showFeaturedOnly}
+            onShowFeaturedOnlyChange={setShowFeaturedOnly} />
+
+            <ProjectsSummary
+            visibleCount={visibleProjects.length}
+            totalCount={projects.length}/>
+          <ProjectsList projects={visibleProjects} />
+        </>
+
       )}
 
 
