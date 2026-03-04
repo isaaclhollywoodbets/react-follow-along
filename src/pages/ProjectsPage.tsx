@@ -3,26 +3,37 @@ import ProjectsList from '../components/ProjectsList';
 import { useState } from 'react';
 import { ProjectsToolbar } from '../components/ProjectsToolbar';
 import { ProjectsSummary } from '../components/ProjectsSummary';
+import { useSettings } from '../context/SettingsContext';
 
 
 export default function ProjectsPage() {
   const [query, setQuery] = useState("");
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+  const {showFeaturedOnly, setShowFeaturedOnly, sortOrder} = useSettings()
 
   const { projects, status, error, reload } = useProjects();
 
-  const normalizedQuery = query.trim().toLowerCase();
 
-  const visibleProjects = projects.filter((p) => {
-    const matchesQuery =
-      normalizedQuery === "" ||
-      (p.name ?? "").toLowerCase().includes(normalizedQuery) ||
-      (p.summary ?? "").toLowerCase().includes(normalizedQuery);
+  const visibleProjects = projects
+    .slice()
+    .filter((p) => {
+      const normalizedQuery = query.trim().toLowerCase();
+      const matchesQuery =
+        normalizedQuery === "" ||
+        (p.name ?? "").toLowerCase().includes(normalizedQuery) ||
+        (p.summary ?? "").toLowerCase().includes(normalizedQuery);
+      const matchesFeatured = !showFeaturedOnly || Boolean(p.featured);
+      return matchesQuery && matchesFeatured;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return (
+          new Date(b.createdAt ?? 0).getTime() -
+          new Date(a.createdAt ?? 0).getTime()
+        );
+      }
+      return (a.name ?? "").localeCompare(b.name ?? "");
+    });
 
-    const matchesFeatured = !showFeaturedOnly || Boolean(p.featured);
-
-    return matchesQuery && matchesFeatured;
-  });
 
 
   return (

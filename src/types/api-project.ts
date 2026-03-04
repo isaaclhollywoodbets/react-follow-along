@@ -1,4 +1,5 @@
 export type ApiProject = {
+  createdAt: number;
   id: number;
   name: string;
   summary?: string | null;
