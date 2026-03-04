@@ -3,14 +3,15 @@ import ProjectsList from '../components/ProjectsList';
 import { useState } from 'react';
 import { ProjectsToolbar } from '../components/ProjectsToolbar';
 import { ProjectsSummary } from '../components/ProjectsSummary';
-import { useSettings } from '../context/SettingsContext';
+import { useSettings, useSettingsDispatch } from '../context/SettingsContext';
 
 
 export default function ProjectsPage() {
   const [query, setQuery] = useState("");
-  const {showFeaturedOnly, setShowFeaturedOnly, sortOrder} = useSettings()
+  const { showFeaturedOnly, sortOrder } = useSettings()
 
   const { projects, status, error, reload } = useProjects();
+  const dispatch = useSettingsDispatch();
 
 
   const visibleProjects = projects
@@ -60,11 +61,13 @@ export default function ProjectsPage() {
             query={query}
             onQueryChange={setQuery}
             showFeaturedOnly={showFeaturedOnly}
-            onShowFeaturedOnlyChange={setShowFeaturedOnly} />
+            onShowFeaturedOnlyChange={(checked) =>
+              dispatch({ type: "set_show_featured_only", value: checked })
+            } />
 
-            <ProjectsSummary
+          <ProjectsSummary
             visibleCount={visibleProjects.length}
-            totalCount={projects.length}/>
+            totalCount={projects.length} />
           <ProjectsList projects={visibleProjects} />
         </>
 

@@ -1,47 +1,45 @@
-// src/context/SettingsContext.tsx
-import { createContext, useContext, useMemo, useState } from "react";
-import type { ReactNode } from "react";
+import { createContext, useContext, useMemo, useReducer } from "react";
+import type { Dispatch, ReactNode } from "react";
+import {
+  initialSettings,
+  settingsReducer,
+  type SettingsAction,
+  type SettingsState,
+} from "./SettingsReducer";
 
-type SortOrder = "name" | "newest";
-
-type SettingsContextValue = {
-  showFeaturedOnly: boolean;
-  setShowFeaturedOnly: React.Dispatch<React.SetStateAction<boolean>>;
-  sortOrder: SortOrder;
-  setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
-};
-
-const SettingsContext = createContext<SettingsContextValue | undefined>(undefined);
+const SettingsStateContext = createContext<SettingsState | undefined>(undefined);
+const SettingsDispatchContext = createContext<Dispatch<SettingsAction> | undefined>(
+  undefined
+);
 
 type SettingsProviderProps = {
   children: ReactNode;
 };
 
 export function SettingsProvider({ children }: SettingsProviderProps) {
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
-  const [sortOrder, setSortOrder] = useState<SortOrder>("name");
+  const [state, dispatch] = useReducer(settingsReducer, initialSettings);
 
-  // Important: Provider value changes trigger re-renders of all consumers.
-  // Memoize to avoid creating a new object every render unnecessarily.
-  const value = useMemo<SettingsContextValue>(
-    () => ({
-      showFeaturedOnly,
-      setShowFeaturedOnly,
-      sortOrder,
-      setSortOrder,
-    }),
-    [showFeaturedOnly, sortOrder]
-  );
+  const stateValue = useMemo(() => state, [state]);
 
   return (
-    <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>
+    <SettingsStateContext.Provider value={stateValue}>
+      <SettingsDispatchContext.Provider value={dispatch}>
+        {children}
+      </SettingsDispatchContext.Provider>
+    </SettingsStateContext.Provider>
   );
 }
 
 export function useSettings() {
-  const ctx = useContext(SettingsContext);
-  if (!ctx) {
-    throw new Error("useSettings must be used inside <SettingsProvider>");
+  const state = useContext(SettingsStateContext);
+  if (!state) throw new Error("useSettings must be used inside <SettingsProvider>");
+  return state;
+}
+
+export function useSettingsDispatch() {
+  const dispatch = useContext(SettingsDispatchContext);
+  if (!dispatch) {
+    throw new Error("useSettingsDispatch must be used inside <SettingsProvider>");
   }
-  return ctx;
+  return dispatch;
 }
