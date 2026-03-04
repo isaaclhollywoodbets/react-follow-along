@@ -6,16 +6,17 @@ import type { ApiProject } from '../types/api-project';
 
 export type ProjectListProps = {
     projects: ApiProject[];
+    compact: boolean;
 }
 
-function ProjectsList({ projects }: ProjectListProps) {
+function ProjectsList({ projects, compact }: ProjectListProps) {
 
   return (
     <section>
       <h2>Projects</h2>
       <div className="projects-grid">
         {projects.map(project => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} compact={compact} />
         ))}
       </div>
     </section>

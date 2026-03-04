@@ -7,10 +7,11 @@ import type { ApiProject } from "../types/api-project";
 
 type ProjectCardProps = {
   project: ApiProject;
+  compact: boolean
 };
 
 
-function ProjectCard({ project }: ProjectCardProps) {
+function ProjectCard({ project, compact }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasDetails = Boolean(project.details?.trim());
   const techList = project.tech?.length ? project.tech.join(', ') : 'N/A';
@@ -25,29 +26,36 @@ function ProjectCard({ project }: ProjectCardProps) {
       <article className="project-card">
         <h3>{project.name}</h3>
         <FeaturedBadge isFeatured={project.featured} />
-        <p>{project.summary ?? 'No summary yet.'}</p>
+        
+       {!compact ? <div>{project.summary ?? "No summary yet."}</div> : null}
 
 
-        {
-          hasDetails && isExpanded && (
+
+
+        {!compact && (
+          <>
+            {hasDetails && isExpanded && (
+              <p>More Details: {project.details}</p>
+            )}
+
             <p>
-              More Details: {project.details}
+              <strong>Tech:</strong> {techList}
             </p>
-          )}
 
-        <p><strong>Tech:</strong> {techList} </p>
+            <StatusBadge isFinished={project.finished} />
 
-        <StatusBadge isFinished={project.finished} />
+            <div className="project-card__actions">
+              <LikeButton />
+            </div>
 
-        <div className="project-card__actions">
-          <LikeButton />
-        </div>
-
-        {hasDetails && (
-          <button type="button" onClick={handleToggleDetails}>
-            {isExpanded ? 'Show Less' : 'Show More'}
-          </button>
+            {hasDetails && (
+              <button type="button" onClick={handleToggleDetails}>
+                {isExpanded ? "Show Less" : "Show More"}
+              </button>
+            )}
+          </>
         )}
+
       </article>
     </>
 

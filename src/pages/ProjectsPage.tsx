@@ -8,7 +8,7 @@ import { useSettings, useSettingsDispatch } from '../context/SettingsContext';
 
 export default function ProjectsPage() {
   const [query, setQuery] = useState("");
-  const { showFeaturedOnly, sortOrder } = useSettings()
+  const { showFeaturedOnly, sortOrder, compactMode } = useSettings()
 
   const { projects, status, error, reload } = useProjects();
   const dispatch = useSettingsDispatch();
@@ -68,7 +68,7 @@ export default function ProjectsPage() {
           <ProjectsSummary
             visibleCount={visibleProjects.length}
             totalCount={projects.length} />
-          <ProjectsList projects={visibleProjects} />
+          <ProjectsList projects={visibleProjects} compact={compactMode} />
         </>
 
       )}

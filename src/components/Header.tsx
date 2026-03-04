@@ -3,21 +3,21 @@ import ThemeLabel from './ThemeSwitcher';
 import { useSettings, useSettingsDispatch } from '../context/SettingsContext';
 
 function Header() {
-  const {showFeaturedOnly, sortOrder} = useSettings();
+  const { showFeaturedOnly, sortOrder, compactMode } = useSettings();
   const dispatch = useSettingsDispatch();
 
   return (
     <header>
       <h1>The portfolio</h1>
-      <NavBar/>
-      <ThemeLabel/>
+      <NavBar />
+      <ThemeLabel />
       <label style={{ marginLeft: 12 }}>
         <input
           type="checkbox"
           checked={showFeaturedOnly}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-            dispatch({ 
-              type: "set_show_featured_only", 
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            dispatch({
+              type: "set_show_featured_only",
               value: e.target.checked,
             })
           }
@@ -39,6 +39,14 @@ function Header() {
           <option value="name">Name</option>
           <option value="newest">Newest</option>
         </select>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={compactMode}
+          onChange={() => dispatch({ type: "toggle_compact_mode" })}
+        />
+        {" "}Compact mode
       </label>
     </header>
   );
