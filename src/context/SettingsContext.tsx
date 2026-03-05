@@ -5,7 +5,7 @@ import {
   settingsReducer,
   type SettingsAction,
   type SettingsState,
-} from "./SettingsReducer";
+} from "./settingsReducer";
 
 const SettingsStateContext = createContext<SettingsState | undefined>(undefined);
 const SettingsDispatchContext = createContext<Dispatch<SettingsAction> | undefined>(
