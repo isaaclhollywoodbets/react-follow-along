@@ -2,14 +2,9 @@ import { NavLink } from "react-router";
 
 function NavBar() {
 
-    const linkStyle = ({ isActive }: { isActive: boolean }) => ({
-        fontWeight: isActive ? "700" : "400",
-        textDecoration: "none",
-    });
-
     return (
         <nav style={{ display: "flex", gap: 12 }}>
-            <NavLink to="/" end style={linkStyle}>
+            <NavLink to="/" end className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 Home
             </NavLink>
             <NavLink to="/projects" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
@@ -23,6 +18,9 @@ function NavBar() {
             </NavLink>
             <NavLink to="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 Contact
+            </NavLink>
+            <NavLink to="/admin" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                Admin
             </NavLink>
         </nav>
     )

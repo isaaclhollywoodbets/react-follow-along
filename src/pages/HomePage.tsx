@@ -1,6 +1,7 @@
 import { useSettings } from "../context/SettingsContext";
 import { useProjects } from "../hooks/useProjects";
 import type { ApiProject } from "../types/api-project";
+import { Link } from "react-router";
 
 type HomePageProps = {
   projects?: ApiProject[]
@@ -37,6 +38,7 @@ export default function HomePage({ projects = [] }: HomePageProps) {
   return (
     <>
         <h1>Welcome to my portfolio</h1>
+        <p>View <Link to="/skills">Skills</Link> </p>
          <section>
       <h2>{showFeaturedOnly ? "Featured Projects" : "All Projects"}</h2>
 
