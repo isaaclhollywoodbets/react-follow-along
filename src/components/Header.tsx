@@ -1,6 +1,13 @@
 import NavBar from './NavBar'
 import ThemeLabel from './ThemeSwitcher';
 import { useSettings, useSettingsDispatch } from '../context/SettingsContext';
+import {
+  resetSettings,
+  setShowFeaturedOnly,
+  setSortOrder,
+  toggleCompactMode
+} from "../context/settingsActions"
+
 
 function Header() {
   const { showFeaturedOnly, sortOrder, compactMode } = useSettings();
@@ -16,11 +23,7 @@ function Header() {
           type="checkbox"
           checked={showFeaturedOnly}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            dispatch({
-              type: "set_show_featured_only",
-              value: e.target.checked,
-            })
-          }
+            dispatch(setShowFeaturedOnly(e.target.checked))}
         />
         {" "}Show featured only
       </label>
@@ -30,11 +33,7 @@ function Header() {
         <select
           value={sortOrder}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            dispatch({
-              type: "set_sort_order",
-              sortOrder: e.target.value as "name" | "newest"
-            })
-          }
+            dispatch(setSortOrder(e.target.value as "name" | "newest"))}
         >
           <option value="name">Name</option>
           <option value="newest">Newest</option>
@@ -44,10 +43,14 @@ function Header() {
         <input
           type="checkbox"
           checked={compactMode}
-          onChange={() => dispatch({ type: "toggle_compact_mode" })}
+          onChange={() => dispatch(toggleCompactMode())}
         />
         {" "}Compact mode
       </label>
+
+      <button style={{ marginLeft: 12}} onClick={() => dispatch(resetSettings())}>
+        Reset
+      </button>
     </header>
   );
 }
