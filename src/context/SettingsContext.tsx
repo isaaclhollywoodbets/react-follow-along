@@ -7,6 +7,7 @@ import {
   type SettingsState,
 } from "./settingsReducer";
 
+
 const SettingsStateContext = createContext<SettingsState | undefined>(undefined);
 const SettingsDispatchContext = createContext<Dispatch<SettingsAction> | undefined>(
   undefined
