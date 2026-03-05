@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/Contact';
 import SkillsPage from './pages/SkillsPage';
 import AdminPage from './pages/admin/AdminPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         <Route path='skills' element={<SkillsPage/>}/>
         <Route path='contact' element={<ContactPage/>}/>
         <Route path='admin' element={<AdminPage/>}/>
+
+        {/* catch all route (matches anything) */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
