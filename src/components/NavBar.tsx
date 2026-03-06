@@ -1,6 +1,8 @@
 import { NavLink } from "react-router";
+import { useSettings } from "../context/SettingsContext";
 
 function NavBar() {
+    const { isAdminMode } = useSettings()
 
     return (
         <nav style={{ display: "flex", gap: 12 }}>
@@ -19,9 +21,14 @@ function NavBar() {
             <NavLink to="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                 Contact
             </NavLink>
-            <NavLink to="/admin" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
-                Admin
-            </NavLink>
+            {isAdminMode
+                ?
+                <NavLink to="/admin" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                    Admin
+                </NavLink>
+                : null
+            }
+
         </nav>
     )
 }
