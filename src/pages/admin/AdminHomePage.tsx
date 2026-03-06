@@ -32,6 +32,7 @@ export default function AdminDashboardPage() {
   return (
     <main>
       <h1>Admin dashboard</h1>
+      
       <button onClick={reload}>Reload all panels</button>
 
       <section>
