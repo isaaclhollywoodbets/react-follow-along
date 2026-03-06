@@ -1,45 +1,81 @@
-import { useMemo, useState } from "react";
-import ControlledWarmup from "../../components/ControlledWarmup";
+import { useEffect, useMemo, useState } from "react";
+import {
+  createProject,
+  getProjects,
+  deleteProject,
+  updateProject,
+} from "../../api/projectsApi";
 import type { ApiProject } from "../../types/api-project";
 import AdminProjectForm from "./AdminProjectForm";
 
-const sampleProjects: ApiProject[] = [
-    {
-        id: 1,
-        createdAt: Date.now(),
-        name: "Portfolio API",
-        summary: "C# backend for portfolio content",
-        featured: true,
-        finished: true,
-        details: "Admin-editable project used as a starter example.",
-        tech: ["c#", ".net", "sql"],
-    },
-];
-
 export default function AdminProjectsPage() {
-    const [projects] = useState(sampleProjects);
-    const [editingId, setEditingId] = useState<number | null>(null);
+  const [projects, setProjects] = useState<ApiProject[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
+  const selectedProject = useMemo(
+    () => projects.find((project) => project.id === editingId) ?? null,
+    [projects, editingId]
+  );
 
-    const selectedProject = useMemo(
-        () => projects.find((project) => project.id === editingId) ?? null,
-        [projects, editingId]
-    );
+  async function refreshProjects() {
+    const data = await getProjects();
+    setProjects(Array.isArray(data) ? data : []);
+  }
 
+  useEffect(() => {
+    refreshProjects();
+  }, []);
 
-    async function handleSave(draft: Omit<ApiProject, "id" | "createdAt">) {
-        console.log("Save this draft later:", draft)
+  async function handleSave(draft: Omit<ApiProject, "id" | "createdAt">) {
+    if (editingId == null) {
+      await createProject(draft);
+    } else {
+      await updateProject(editingId, draft);
     }
-    return (
-        <section>
-            <p>Admin projects (create/edit form goes here).</p>
-            <ControlledWarmup />
-            <button type="button" onClick={() => setEditingId(1)}>
-                Edit sample project
+
+    await refreshProjects();
+    setEditingId(null);
+  }
+
+    async function handleDelete() {
+    if (editingId == null) return;
+
+    await deleteProject(editingId);
+    await refreshProjects();
+    setEditingId(null);
+  }
+
+  function startEdit(project: ApiProject) {
+    setEditingId(project.id);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+  }
+
+  return (
+    <section>
+      <h2>Projects</h2>
+
+      <ul>
+        {projects.map((project) => (
+          <li key={project.id}>
+            <strong>{project.name}</strong>{" "}
+            <button type="button" onClick={() => startEdit(project)}>
+              Edit
             </button>
-            <AdminProjectForm initialValues={selectedProject} onSave={handleSave} />
+          </li>
+        ))}
+      </ul>
 
-        </section>
+      <h3>{editingId == null ? "Create Project" : "Edit Project"}</h3>
 
-    )
+      <AdminProjectForm
+        initialValues={selectedProject}
+        onSave={handleSave}
+        onCancel={cancelEdit}
+        onDelete={handleDelete}
+      />
+    </section>
+  );
 }
